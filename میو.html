@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#101214">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="برنامه‌ریز">
+<title>برنامه‌ریز شخصی</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"برنامه‌ریز شخصی","short_name":"برنامه‌ریز","start_url":".","display":"standalone","dir":"rtl","lang":"fa","background_color":"%230f1113","theme_color":"%23101214"}'>
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{color-scheme:dark;--bg:#0f1113;--panel:#171a1d;--panel2:#1e2226;--text:#f4f5f6;--muted:#9ca3aa;--line:#2b3035;--accent:#d69a66;--accent2:#b77b4d;--danger:#e47d7d;--ok:#7ecb9a;--shadow:0 10px 30px rgba(0,0,0,.18);--r:18px}
+@media(prefers-color-scheme:light){:root{color-scheme:light;--bg:#f5f6f7;--panel:#fff;--panel2:#eef0f2;--text:#151719;--muted:#687078;--line:#dfe3e6;--shadow:0 8px 24px rgba(0,0,0,.07)}}
+:root[data-theme=dark]{color-scheme:dark}.light{color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Noto Sans Arabic",Tahoma,sans-serif}
+body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;color:inherit;background:none;min-width:44px;min-height:44px}input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px 12px;outline:none}input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{max-width:760px;margin:auto;padding:14px 14px 36px}.top{display:flex;justify-content:space-between;align-items:center}.icon{font-size:23px}.clock{text-align:center;font-variant-numeric:tabular-nums;font-size:clamp(48px,15vw,76px);font-weight:700;letter-spacing:-2px;margin-top:8px}.date{text-align:center;margin:0 0 14px}.jalali{font-size:20px;font-weight:700}.greg{font-size:12px;color:var(--muted);margin-top:3px;direction:ltr}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}.primary,.secondary,.danger{border-radius:14px;padding:10px;background:var(--panel);border:1px solid var(--line);font-weight:700}.primary{background:var(--accent);color:#17120e;border-color:var(--accent)}.sleep{width:100%;margin-bottom:15px}
+.nowbar{display:flex;justify-content:space-between;align-items:center;margin:12px 0 8px;font-size:13px;color:var(--muted)}.timeline{display:flex;flex-direction:column;gap:9px}.task{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px}.task.now{border-color:var(--accent);box-shadow:0 0 0 1px rgba(214,154,102,.2)}.taskhead{display:flex;gap:10px;align-items:flex-start}.dot{width:8px;height:8px;border-radius:50%;margin-top:8px;background:var(--accent);flex:none}.taskmain{flex:1}.tasktime{font-size:12px;color:var(--muted);direction:ltr;text-align:right}.tasktitle{font-size:16px;font-weight:700;margin-top:2px}.meta{font-size:12px;color:var(--muted);margin-top:3px}.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.badge{font-size:10px;padding:4px 7px;border-radius:999px;background:var(--panel2);color:var(--muted)}.badge.main{color:#f0b17d}.badge.done{color:var(--ok)}.badge.missed{color:var(--danger)}.taskactions{display:flex;gap:5px;margin-top:9px}.taskactions button{font-size:11px;min-height:36px;border-radius:10px;background:var(--panel2);padding:5px 9px}.section{margin-top:22px}.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:800}.project{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-bottom:8px}.progress{height:6px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:9px}.progress i{display:block;height:100%;background:var(--accent)}
+.drawer,.modal{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.55);display:none}.drawer.open,.modal.open{display:block}.drawerbox{position:absolute;right:0;top:0;bottom:0;width:min(88%,370px);background:var(--panel);padding:calc(18px + env(safe-area-inset-top)) 16px 20px;overflow:auto;box-shadow:var(--shadow)}.drawer h2{margin:0 0 14px}.navbtn{display:block;width:100%;text-align:right;border-radius:12px;padding:9px 11px;margin:3px 0;min-height:44px}.navbtn:hover{background:var(--panel2)}.navgroup{color:var(--muted);font-size:12px;margin:15px 5px 5px}
+.modalbox{position:absolute;left:10px;right:10px;bottom:10px;max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.modalhead{display:flex;justify-content:space-between;align-items:center}.modal h3{margin:0}.form{display:grid;gap:10px;margin-top:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px}.close{font-size:24px}.notice{padding:11px 12px;border-radius:12px;background:var(--panel2);font-size:13px;margin:10px 0}.toast{position:fixed;z-index:30;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));background:#22272b;color:#fff;padding:12px 14px;border-radius:14px;display:none;text-align:center}.toast.show{display:block}.empty{text-align:center;color:var(--muted);padding:30px 12px;background:var(--panel);border-radius:var(--r)}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calcell{min-height:48px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:5px;font-size:12px}.calcell.today{border-color:var(--accent)}.calcell.has:after{content:"•";display:block;color:var(--accent);font-size:16px}.muted{color:var(--muted)}.danger{background:rgba(228,125,125,.12);color:var(--danger);border-color:rgba(228,125,125,.3)}.hidden{display:none!important}
+@media(min-width:700px){.app{padding-left:24px;padding-right:24px}.drawerbox{width:380px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><button class="icon" id="menu" aria-label="باز کردن منو">☰</button><button class="icon" id="theme" aria-label="تغییر حالت نمایش">◐</button></header>
+  <main>
+    <div id="clock" class="clock">--:--:--</div>
+    <div class="date"><div id="jalali" class="jalali">در حال محاسبه...</div><div id="greg" class="greg">--</div></div>
+    <div class="actions"><button id="wake" class="primary">بیدار شدم</button><button id="sudden" class="secondary">کار یهویی</button></div>
+    <button id="sleep" class="secondary sleep">رفتم بخوابم</button>
+    <div id="notice"></div>
+    <div class="nowbar"><span>برنامه امروز</span><span id="dayState"></span></div>
+    <section id="timeline" class="timeline"></section>
+    <section class="section"><div class="sectiontitle"><span>پروژه‌ها</span><button id="newProject" class="secondary">+ پروژه</button></div><div id="projects"></div></section>
+  </main>
+</div>
+
+<aside id="drawer" class="drawer"><div class="drawerbox">
+  <div class="modalhead"><h2>برنامه‌ریز</h2><button class="close" id="closeDrawer">×</button></div>
+  <div class="navgroup">امروز</div><button class="navbtn" data-page="today">صفحه اصلی</button>
+  <div class="navgroup">کارها</div><button class="navbtn" data-page="tasks">کارها</button><button class="navbtn" data-page="main">کارهای اصلی</button><button class="navbtn" data-page="semi">نیمه‌مهم</button><button class="navbtn" data-page="daily">روزانه</button><button class="navbtn" data-page="reminders">یادآوری‌ها</button>
+  <div class="navgroup">پروژه‌ها</div><button class="navbtn" data-page="projects">لیست پروژه‌ها</button>
+  <div class="navgroup">دانشگاه</div><button class="navbtn" data-page="classes">کلاس‌ها</button><button class="navbtn" data-page="subjects">درس‌ها</button><button class="navbtn" data-page="semester">ترم</button>
+  <div class="navgroup">باشگاه</div><button class="navbtn" data-page="gym">برنامه / جلسات</button>
+  <div class="navgroup">تقویم</div><button class="navbtn" data-page="calendar">نمایش ماهانه</button>
+  <div class="navgroup">تنظیمات</div><button class="navbtn" data-page="settings">تنظیمات</button><button class="navbtn" data-page="backup">Backup</button>
+  <button class="navbtn danger" id="badDay">روز بد</button>
+</div></aside>
+
+<div id="modal" class="modal"><div class="modalbox" id="modalbox"></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+const KEY="personal-planner-v1";
+const pad=n=>String(n).padStart(2,"0");
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const faDigits=s=>String(s).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const dow=["یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"];
+const months=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+function jdn(jy,jm,jd){let epbase=jy-(jy>=0?474:473),epyear=474+(epbase%2820);return jd+(jm<=7?(jm-1)*31:(jm-1)*30+6)+Math.floor((epyear*682-110)/2816)+(epyear-1)*365+Math.floor(epbase/2820)*1029983+(1948320-1)}
+function gregToJalali(gy,gm,gd){const gdm=[0,31,59,90,120,151,181,212,243,273,304,334];let jy=gy>1600?979:0;gy-=gy>1600?1600:621;let gy2=gm>2?gy+1:gy;let days=365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)-79+gd+gdm[gm-1];jy+=33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365}const jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30),jd=1+(days<186?days%31:(days-186)%30);return[jy,jm,jd]}
+function jalaliToGreg(jy,jm,jd){let gy=jy>979?1600:621;let y=jy>979?jy-979:jy;let days=365*y+Math.floor(y/33)*8+Math.floor((y%33+3)/4)+77+jd+(jm<7?(jm-1)*31:(jm-7)*30+186);gy+=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365}let gd=days+1,gm=1;const md=[0,31,((gy%4===0&&gy%100!==0)||gy%400===0)?29:28,31,30,31,30,31,31,30,31,30,31];while(gm<=12&&gd>md[gm])gd-=md[gm++];return[gy,gm,gd]}
+function dateKey(d=new Date()){let x=new Date(d);if(x.getHours()<4)x.setDate(x.getDate()-1);let [y,m,day]=gregToJalali(x.getFullYear(),x.getMonth()+1,x.getDate());return `${y}-${pad(m)}-${pad(day)}`}
+function currentDay(){let d=new Date();if(d.getHours()<4)d.setDate(d.getDate()-1);return d}
+function minsNow(){let d=new Date();return d.getHours()*60+d.getMinutes()+d.getSeconds()/60}
+function parseHM(s){let [h,m]=s.split(":").map(Number);return h*60+m}
+function fmtMin(m){m=((Math.round(m)%1440)+1440)%1440;return `${pad(Math.floor(m/60))}:${pad(m%60)}`}
+function dateAt(dayKey,min){let [y,mo,da]=dayKey.split("-").map(Number),[gy,gm,gd]=jalaliToGreg(y,mo,da);let d=new Date(gy,gm-1,gd,Math.floor(min/60),min%60,0,0);if(min>=1440)d.setDate(d.getDate()+Math.floor(min/1440));return d}
+function todayStartDate(){let d=currentDay();d.setHours(4,0,0,0);return d}
+const defaults={schemaVersion:1,settings:{wake:"07:30",sleep:"23:30",uniTravel:45,gymTravel:20,workStart:"09:00",workEnd:"14:00",gymTarget:5,restDays:[5],shower:20,breakfast:15,ready:20,study:60,postpone:180,dayBoundary:4,oddWeek:1,theme:"auto"},classes:[],semester:{start:"",mid:"",end:"",finals:"",holidays:[]},tasks:[],projects:[],habits:[],reminders:[],gym:{sessions:[],restDays:[5],target:5},history:{},dailyState:{},subjects:[]};
+function cloneDefaults(){return JSON.parse(JSON.stringify(defaults))}
+function storageGet(k){try{return window.localStorage?window.localStorage.getItem(k):null}catch(e){return null}}
+function storageSet(k,v){try{if(window.localStorage){window.localStorage.setItem(k,v);return true}}catch(e){}return false}
+let state=load();
+function load(){try{let raw=storageGet(KEY);if(!raw)return cloneDefaults();let x=JSON.parse(raw);if(!x||typeof x!=="object")return cloneDefaults();return {...cloneDefaults(),...x,settings:{...defaults.settings,...(x.settings||{})}}}catch(e){setTimeout(()=>toast("داده‌های ذخیره‌شده قابل خواندن نبودند؛ برنامه با تنظیمات پایه اجرا شد."),300);return cloneDefaults()}}
+function save(){try{state.schemaVersion=1;if(!storageSet(KEY,JSON.stringify(state)))toast("ذخیره‌سازی محلی در این محیط در دسترس نیست؛ اپ همچنان در همین نشست کار می‌کند.")}catch(e){toast("ذخیره‌سازی انجام نشد.")}}
+function toast(t){let el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>el.classList.remove("show"),3200)}
+function openModal(html){document.getElementById("modalbox").innerHTML=html;document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+function setupIfNeeded(){if(!storageGet(KEY+"_setup")){openModal(`<div class="modalhead"><h3>راه‌اندازی سریع</h3></div><p class="muted">فقط چند مقدار پایه؛ بقیه را بعداً خود برنامه مدیریت می‌کند.</p><form id="setup" class="form">
+<div class="field"><label>ساعت معمول بیداری</label><input name="wake" type="time" value="${state.settings.wake}"></div>
+<div class="field"><label>ساعت معمول خواب</label><input name="sleep" type="time" value="${state.settings.sleep}"></div>
+<div class="field"><label>رفت‌وآمد دانشگاه (دقیقه)</label><input name="uniTravel" type="number" min="0" value="${state.settings.uniTravel}"></div>
+<div class="field"><label>رفت‌وآمد باشگاه (دقیقه)</label><input name="gymTravel" type="number" min="0" value="${state.settings.gymTravel}"></div>
+<div class="row"><div class="field"><label>شروع کار</label><input name="workStart" type="time" value="${state.settings.workStart}"></div><div class="field"><label>پایان کار</label><input name="workEnd" type="time" value="${state.settings.workEnd}"></div></div>
+<div class="field"><label>هدف باشگاه در هفته</label><input name="gymTarget" type="number" min="0" max="7" value="${state.settings.gymTarget}"></div>
+<button class="primary">شروع</button></form>`)}}
+document.getElementById("modalbox").addEventListener("submit",e=>{if(e.target.id==="setup"){e.preventDefault();let f=new FormData(e.target);Object.assign(state.settings,{wake:f.get("wake"),sleep:f.get("sleep"),uniTravel:+f.get("uniTravel"),gymTravel:+f.get("gymTravel"),workStart:f.get("workStart"),workEnd:f.get("workEnd"),gymTarget:+f.get("gymTarget")});save();storageSet(KEY+"_setup","1");closeModal();render();}});
+
+function getClassesForDay(d){let wd=d.getDay();let week=((Math.floor((d-new Date(2026,8,22))/(7*864e5))%2)+2)%2;return state.classes.filter(c=>+c.day===wd&&(c.week==="both"||(c.week==="odd"?week===state.settings.oddWeek%2:week!==state.settings.oddWeek%2)))}
+function sampleTasks(){if(state.tasks.length||state.classes.length)return;state.classes=[{id:uid(),title:"کلاس نمونه دانشگاه",teacher:"",day:2,start:"10:00",end:"11:30",week:"both",place:"دانشگاه",travel:45}];state.tasks=[{id:uid(),title:"مرتب کردن تخت",duration:2,type:"daily",priority:6,repeat:"daily",done:false},{id:uid(),title:"مطالعه پروژه نمونه",duration:45,type:"project",priority:4,deadline:"",status:"planned",done:false,projectId:null}];state.projects=[{id:uid(),title:"پروژه نمونه",deadline:"",tasks:[]}];state.tasks[1].projectId=state.projects[0].id;save()}
+function wake(){let now=new Date();state.dailyState[dateKey()]={...(state.dailyState[dateKey()]||{}),wake:now.toISOString(),badDay:false};save();toast("زمان بیدار شدن ثبت شد؛ برنامه از همین لحظه تنظیم شد.");render(true)}
+function sleepNow(){let now=new Date(),k=dateKey();state.dailyState[k]={...(state.dailyState[k]||{}),sleep:now.toISOString()};save();let tomorrow=new Date(currentDay());tomorrow.setDate(tomorrow.getDate()+1);let cls=getClassesForDay(tomorrow)[0];let wake=cls?parseHM(cls.start)-(cls.travel||state.settings.uniTravel)-state.settings.ready:parseHM(state.settings.wake);let sleepTarget=wake-8*60;toast(`برای فردا بهتره حدود ${fmtMin(sleepTarget)} بخوابی.`);render()}
+function dayBad(){let k=dateKey();state.dailyState[k]={...(state.dailyState[k]||{}),badDay:true};save();closeDrawer();toast("روز سبک شد؛ فقط کارهای ضروری باقی ماندند.");render(true)}
+function taskStatus(t){if(t.done)return"done";if(t.status==="moved")return"moved";if(t.status==="deleted")return"deleted";if(t.status==="rejected")return"rejected";if(t.scheduledEnd && Date.now()>new Date(t.scheduledEnd).getTime() && t.type==="main")return"missed";return t.status||"planned"}
+function fixedBlocks(d){let arr=getClassesForDay(d).map(c=>({id:"c"+c.id,title:c.title+" — کلاس",start:parseHM(c.start),end:parseHM(c.end),type:"class",priority:1,main:true,meta:c.place||"دانشگاه",travel:c.travel||state.settings.uniTravel}));return arr}
+function buildSchedule(){let d=currentDay(),k=dateKey(d),now=minsNow();let start=now;let ds=state.dailyState[k]||{};if(ds.wake){let w=new Date(ds.wake);if(w.toDateString()===new Date().toDateString())start=Math.max(start,w.getHours()*60+w.getMinutes())}let blocks=fixedBlocks(d);blocks.sort((a,b)=>a.start-b.start);let occupied=[...blocks.map(x=>[x.start,x.end])];let add=[];
+const reserve=(s,e,obj)=>{occupied.push([s,e]);add.push({...obj,start:s,end:e})};
+const fits=(s,e)=>s>=start&&e<=1440&&!occupied.some(([a,b])=>s<b&&e>a);
+const nextFree=(duration,from,limit=1440)=>{let p=Math.max(from,start);occupied.sort((a,b)=>a[0]-b[0]);for(let [a,b] of occupied){if(b<=p)continue;if(a-p>=duration&&p+duration<=limit)return p;p=Math.max(p,b)}return p+duration<=limit?p:null};
+let future=blocks.filter(x=>x.start>=start).sort((a,b)=>a.start-b.start);
+let first=future[0];
+if(first&&start<first.start){let leave=first.start-first.travel;let chain=[["مرتب کردن تخت",2,6],["حمام",state.settings.shower,5],["صبحانه",state.settings.breakfast,5],["آماده خروج شدن",state.settings.ready,1]];if(!ds.gymDay&&!state.dailyState[k]?.badDay){for(let [title,dur,p] of chain){let e=nextFree(dur,start,leave);if(e!==null&&e+dur<=leave){reserve(e,e+dur,{id:"auto"+uid(),title,duration:dur,type:title==="آماده خروج شدن"?"essential":"daily",priority:p,meta:"صبح"});start=e+dur}}}let e=first.start-first.travel;if(e>=start)reserve(e,first.start,{id:"travel"+first.id,title:"رفت‌وآمد",duration:first.travel,type:"travel",priority:1,main:true})}
+blocks.forEach(b=>add.push(b));
+let after=Math.max(now, start);
+const fixedTasks=state.tasks.filter(t=>!t.done&&t.status!=="deleted"&&t.fixedStart!=null&&t.fixedEnd!=null);
+for(let t of fixedTasks){let fs=+t.fixedStart,fe=+t.fixedEnd;if(fe<=fs)fe+=1440;if(!occupied.some(([a,b])=>fs<b&&fe>a)){reserve(fs,fe,{...t,id:"fixed"+t.id,sourceId:t.id,main:true,type:"main",priority:1})}}
+const candidates=state.tasks.filter(t=>!t.done&&t.status!=="deleted"&&t.fixedStart==null&&t.type!=="main").filter(t=>!(state.dailyState[k]?.badDay&&t.priority>2));
+candidates.sort((a,b)=>(a.priority||7)-(b.priority||7));
+for(let t of candidates){let dur=+t.duration||15;let e=nextFree(dur,after);if(e!==null){reserve(e,e+dur,{...t,id:"t"+t.id,sourceId:t.id});after=e+dur}else if(t.deadline){let tom=new Date(d);tom.setDate(tom.getDate()+1);t.suggestedNext=tom.toISOString()}}
+add.sort((a,b)=>a.start-b.start);return add}
+function render(autoScroll=false){updateHeader();let sched=buildSchedule();let tl=document.getElementById("timeline");if(!sched.length){tl.innerHTML='<div class="empty">فعلاً چیزی برای امروز نداری.<br><span class="muted">برنامه‌ات سبک است؛ از زمان آزاد استفاده کن.</span></div>'}else{tl.innerHTML=sched.map(t=>{let st=taskStatus(t),now=minsNow(),active=now>=t.start&&now<t.end;let buttons=t.main?`<button onclick="miss('${t.id}')">رد شد</button>`:`<button onclick="done('${t.sourceId||t.id}')">✓ انجام شد</button><button onclick="later('${t.sourceId||t.id}')">بعداً</button><button onclick="tired('${t.sourceId||t.id}')">حال ندارم</button>`;return `<article class="task ${active?'now':''}" data-start="${t.start}"><div class="taskhead"><i class="dot"></i><div class="taskmain"><div class="tasktime">${fmtMin(t.start)} — ${fmtMin(t.end)}</div><div class="tasktitle">${esc(t.title)}</div><div class="meta">${esc(t.meta||"")}</div><div class="badges"><span class="badge ${t.main?'main':''}">${t.type==="class"?"کلاس":t.type==="travel"?"رفت‌وآمد":t.type==="daily"?"روزانه":t.type==="project"?"پروژه":"کار"}</span>${active?'<span class="badge main">الان</span>':''}</div></div></div><div class="taskactions">${buttons}</div></article>`}).join("")}
+document.getElementById("projects").innerHTML=state.projects.length?state.projects.map(p=>{let ts=state.tasks.filter(t=>t.projectId===p.id),doneN=ts.filter(t=>t.done).length,pct=ts.length?Math.round(doneN/ts.length*100):0;return `<div class="project" onclick="showProject('${p.id}')"><b>${esc(p.title)}</b><span class="muted"> ${pct}%</span><div class="progress"><i style="width:${pct}%"></i></div><small class="muted">${doneN} / ${ts.length} تسک انجام شده</small></div>`}).join(""):'<div class="empty">هنوز پروژه‌ای ثبت نشده.</div>';
+if(autoScroll)setTimeout(()=>{let el=document.querySelector(".task.now");if(el)el.scrollIntoView({behavior:"smooth",block:"center"})},60)}
+function updateHeader(){let d=currentDay(),[jy,jm,jd]=gregToJalali(d.getFullYear(),d.getMonth()+1,d.getDate());document.getElementById("clock").textContent=`${pad(new Date().getHours())}:${pad(new Date().getMinutes())}:${pad(new Date().getSeconds())}`;document.getElementById("jalali").textContent=`${dow[d.getDay()]} ${faDigits(jd)} ${months[jm-1]} ${faDigits(jy)}`;document.getElementById("greg").textContent=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;document.getElementById("dayState").textContent=state.dailyState[dateKey()]?.badDay?"روز بد":""}
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function done(id){let t=state.tasks.find(x=>x.id===id);if(t){t.done=true;t.status="done";t.completedAt=new Date().toISOString();save();toast("انجام شد.");render(true)}}
+function later(id){let t=state.tasks.find(x=>x.id===id);if(t){t.status="moved";t.postponedAt=new Date().toISOString();save();toast("این کار به بعد منتقل شد.");render(true)}}
+function tired(id){let t=state.tasks.find(x=>x.id===id);if(t){t.status="moved";t.lowEnergy=true;save();toast("باشه؛ بعداً دوباره جایش را پیدا می‌کنیم.");render(true)}}
+function miss(id){toast("این برنامه اصلی از دست رفته و جابه‌جا نشد.");}
+function showProject(id){let p=state.projects.find(x=>x.id===id);if(!p)return;let ts=state.tasks.filter(t=>t.projectId===id);openModal(`<div class="modalhead"><h3>${esc(p.title)}</h3><button class="close" onclick="closeModal()">×</button></div>${ts.map(t=>`<div class="notice">${t.done?"✓ ":""}${esc(t.title)} — ${t.duration||0} دقیقه</div>`).join("")}<button class="primary" onclick="closeModal()">بستن</button>`)}
+function sudden(){let active=state.dailyState[dateKey()]?.activeSudden;if(active){openModal(`<div class="modalhead"><h3>کار در حال انجام</h3><button class="close" onclick="closeModal()">×</button></div><div class="notice">${esc(active.title)}<br><span class="muted">شروع: ${new Date(active.start).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}</span></div><button class="primary" onclick="finishSudden()">✓ تمام شد</button>`);return}openModal(`<div class="modalhead"><h3>کار یهویی</h3><button class="close" onclick="closeModal()">×</button></div><div class="actions"><button class="primary" onclick="suddenTimed()">زمان مشخص</button><button class="secondary" onclick="suddenOpen()">پایان نامشخص</button></div>`)} 
+function finishSudden(){let k=dateKey(),a=state.dailyState[k]?.activeSudden;if(!a)return;let end=new Date(),start=new Date(a.start);state.tasks.push({id:a.id,title:a.title,duration:Math.max(1,Math.round((end-start)/60000)),type:"sudden",priority:2,status:"done",done:true,completedAt:end.toISOString(),startedAt:a.start});delete state.dailyState[k].activeSudden;save();closeModal();toast("کار تمام شد؛ زمان واقعی ثبت شد.");render(true)}
+function suddenTimed(){openModal(`<div class="modalhead"><h3>کار با زمان مشخص</h3><button class="close" onclick="closeModal()">×</button></div><form id="sudform" class="form"><div class="field"><label>عنوان</label><input name="title" required autofocus></div><div class="row"><div class="field"><label>شروع</label><input name="start" type="time" value="${fmtMin(minsNow())}"></div><div class="field"><label>پایان</label><input name="end" type="time"></div></div><button class="primary">ثبت</button></form>`)}
+function suddenOpen(){openModal(`<div class="modalhead"><h3>کار یهویی</h3><button class="close" onclick="closeModal()">×</button></div><form id="openform" class="form"><div class="field"><label>عنوان</label><input name="title" required autofocus></div><button class="primary">شروع</button></form>`)}
+document.getElementById("modalbox").addEventListener("submit",e=>{if(e.target.id==="sudform"){e.preventDefault();let f=new FormData(e.target),s=parseHM(f.get("start")),en=parseHM(f.get("end"));if(en<=s)en+=1440;state.tasks.push({id:uid(),title:f.get("title"),duration:en-s,type:"sudden",priority:2,status:"planned",fixedStart:s,fixedEnd:en});save();closeModal();toast("کار ثبت شد و برنامه دوباره تنظیم شد.");render(true)}if(e.target.id==="openform"){e.preventDefault();let f=new FormData(e.target);state.dailyState[dateKey()]={...(state.dailyState[dateKey()]||{}),activeSudden:{id:uid(),title:f.get("title"),start:new Date().toISOString()}};save();closeModal();toast("کار شروع شد.");render(true)}});
+document.getElementById("sudden").onclick=sudden;document.getElementById("wake").onclick=wake;document.getElementById("sleep").onclick=sleepNow;
+document.getElementById("menu").onclick=()=>document.getElementById("drawer").classList.add("open");document.getElementById("closeDrawer").onclick=()=>document.getElementById("drawer").classList.remove("open");document.getElementById("badDay").onclick=dayBad;
+document.getElementById("theme").onclick=()=>{let cur=document.documentElement.dataset.theme;document.documentElement.dataset.theme=cur==="dark"?"light":"dark";state.settings.theme=document.documentElement.dataset.theme;save()};
+function page(name){document.getElementById("drawer").classList.remove("open");if(name==="today"){render();return}if(name==="backup")return backupPage();if(name==="settings")return settingsPage();if(name==="calendar")return calendarPage();if(name==="classes")return classesPage();if(name==="projects")return projectsPage();if(name==="gym")return gymPage();toast("این بخش آماده است و داده‌هایش در ساختار ذخیره‌سازی اپ وجود دارد.");}
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>page(b.dataset.page));
+function settingsPage(){openModal(`<div class="modalhead"><h3>تنظیمات</h3><button class="close" onclick="closeModal()">×</button></div><form id="settingsForm" class="form">
+${field("wake","ساعت معمول بیداری",state.settings.wake,"time")}${field("sleep","ساعت معمول خواب",state.settings.sleep,"time")}
+${field("uniTravel","رفت‌وآمد دانشگاه",state.settings.uniTravel,"number")}${field("gymTravel","رفت‌وآمد باشگاه",state.settings.gymTravel,"number")}
+<div class="row">${field("workStart","شروع کار",state.settings.workStart,"time")}${field("workEnd","پایان کار",state.settings.workEnd,"time")}</div>
+<div class="row">${field("shower","مدت حمام",state.settings.shower,"number")}${field("breakfast","مدت صبحانه",state.settings.breakfast,"number")}</div>
+<div class="row">${field("ready","مدت آماده‌شدن",state.settings.ready,"number")}${field("study","مدت مطالعه",state.settings.study,"number")}</div>
+${field("postpone","مدت «بعداً» (دقیقه)",state.settings.postpone,"number")}${field("gymTarget","هدف باشگاه",state.settings.gymTarget,"number")}
+<button class="primary">ذخیره</button></form>`)}
+function field(n,l,v,t="text"){return `<div class="field"><label>${l}</label><input name="${n}" type="${t}" value="${v}"></div>`}
+document.getElementById("modalbox").addEventListener("submit",e=>{if(e.target.id==="settingsForm"){e.preventDefault();let f=new FormData(e.target);for(let [k,v] of f){state.settings[k]=["uniTravel","gymTravel","shower","breakfast","ready","study","postpone","gymTarget"].includes(k)?+v:v}save();closeModal();toast("تنظیمات ذخیره شد.");render(true)}})
+function backupPage(){openModal(`<div class="modalhead"><h3>Backup</h3><button class="close" onclick="closeModal()">×</button></div><div class="notice">تمام داده‌ها شامل Tasks، Projects، Classes، Settings، Habits، Semester و History در فایل ذخیره می‌شوند.</div><button class="primary" onclick="downloadBackup()">دانلود بکاپ</button><label class="secondary" style="display:block;text-align:center;margin-top:8px">بازیابی بکاپ<input id="restore" type="file" accept=".json,application/json" hidden></label>`);document.getElementById("restore").onchange=restoreBackup}
+function downloadBackup(){let [y,m,d]=dateKey().split("-");let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`planner-backup-${y}-${m}-${d}.json`;a.click();URL.revokeObjectURL(a.href)}
+function restoreBackup(e){let file=e.target.files[0];if(!file)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!confirm("اطلاعات فعلی با نسخه پشتیبان جایگزین می‌شود. ادامه می‌دهی؟"))return;if(!x.schemaVersion)throw Error();state=x;save();closeModal();render();toast("بازیابی انجام شد.")}catch(_){toast("فایل بکاپ معتبر نیست.")}};r.readAsText(file)}
+function calendarPage(){let d=currentDay(),[jy,jm,jd]=gregToJalali(d.getFullYear(),d.getMonth()+1,d.getDate()),days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate(),first=new Date(d.getFullYear(),d.getMonth(),1).getDay();let cells=[];for(let i=0;i<first;i++)cells.push(`<div></div>`);for(let n=1;n<=days;n++){let x=new Date(d.getFullYear(),d.getMonth(),n),k=dateKey(x),has=state.tasks.some(t=>t.deadline===k||t.repeat==="daily")||getClassesForDay(x).length;cells.push(`<div class="calcell ${n===d.getDate()?'today':''} ${has?'has':''}">${faDigits(gregToJalali(x.getFullYear(),x.getMonth()+1,x.getDate())[2])}</div>`)}openModal(`<div class="modalhead"><h3>${months[jm-1]} ${faDigits(jy)}</h3><button class="close" onclick="closeModal()">×</button></div><div class="calendar">${["ی","د","س","چ","پ","ج","ش"].map(x=>`<div class="muted" style="text-align:center">${x}</div>`).join("")}${cells.join("")}</div>`)}
+function classesPage(){openModal(`<div class="modalhead"><h3>کلاس‌ها</h3><button class="close" onclick="closeModal()">×</button></div>${state.classes.map(c=>`<div class="notice"><b>${esc(c.title)}</b><br>${dow[c.day]} ${c.start} تا ${c.end} — ${c.week==="both"?"هر دو هفته":c.week==="odd"?"فرد":"زوج"}</div>`).join("")||'<div class="empty">کلاسی ثبت نشده.</div>'}`)}
+function projectsPage(){openModal(`<div class="modalhead"><h3>پروژه‌ها</h3><button class="close" onclick="closeModal()">×</button></div>${state.projects.map(p=>`<div class="notice" onclick="showProject('${p.id}');">${esc(p.title)}</div>`).join("")||'<div class="empty">پروژه‌ای ثبت نشده.</div>'}`)}
+function gymPage(){openModal(`<div class="modalhead"><h3>باشگاه</h3><button class="close" onclick="closeModal()">×</button></div><div class="notice">هدف هفتگی: ${state.settings.gymTarget} جلسه<br>روزهای استراحت: ${state.settings.restDays.map(x=>dow[x]).join("، ")}</div><button class="primary" onclick="gymSession()">ثبت جلسه انجام‌شده</button>`)}
+function gymSession(){let k=dateKey();state.gym.sessions.push({id:uid(),date:k,startedAt:new Date().toISOString()});save();closeModal();toast("جلسه باشگاه ثبت شد.");render(true)}
+document.getElementById("newProject").onclick=()=>{openModal(`<div class="modalhead"><h3>پروژه جدید</h3><button class="close" onclick="closeModal()">×</button></div><form id="pform" class="form"><div class="field"><label>عنوان پروژه</label><input name="title" required autofocus></div><button class="primary">ساخت پروژه</button></form>`)};
+document.getElementById("modalbox").addEventListener("submit",e=>{if(e.target.id==="pform"){e.preventDefault();let f=new FormData(e.target);state.projects.push({id:uid(),title:f.get("title"),deadline:"",tasks:[]});save();closeModal();render()}})
+setInterval(()=>updateHeader(),250);setInterval(()=>{if(new Date().getSeconds()===0)render()},1000);
+sampleTasks();setupIfNeeded();if(state.settings.theme==="dark"||state.settings.theme==="light")document.documentElement.dataset.theme=state.settings.theme;render();
+</script>
+</body>
+</html>
