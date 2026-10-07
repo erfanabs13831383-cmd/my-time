@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحقیق در عملیات ۱ – مثال‌های فصل اول</title>
+<style>
+:root{--bg:#fff;--fg:#202124;--mut:#5f6368;--card:#f8f9fa;--bd:#dadce0;--ac:#1a73e8;--code:#f1f3f4}
+@media(prefers-color-scheme:dark){:root{--bg:#202124;--fg:#e8eaed;--mut:#9aa0a6;--card:#2d2e31;--bd:#3c4043;--ac:#8ab4f8;--code:#171717}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:Tahoma,Vazirmatn,sans-serif;line-height:1.7}
+header{text-align:center;padding:28px 14px 10px}h1{margin:0 0 6px;font-size:1.5rem}
+.logo span:nth-child(4n+1){color:#4285f4}.logo span:nth-child(4n+2){color:#ea4335}.logo span:nth-child(4n+3){color:#fbbc05}.logo span:nth-child(4n){color:#34a853}
+.sub{color:var(--mut);font-size:.9rem}
+#q{display:block;width:min(560px,92%);margin:16px auto;padding:12px 18px;border:1px solid var(--bd);border-radius:24px;background:var(--bg);color:var(--fg);font:inherit}
+main{max-width:900px;margin:auto;padding:0 12px 40px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:14px 0}
+h2{margin:0 0 10px;font-size:1.1rem;color:var(--ac)}h2 small{display:block;color:var(--mut);font-size:.82rem;font-weight:400}
+.bar{display:flex;justify-content:space-between;align-items:center;margin:8px 0 4px;font-size:.85rem}
+button{border:1px solid var(--bd);background:var(--bg);color:var(--ac);border-radius:14px;padding:3px 14px;font:inherit;cursor:pointer}
+pre{margin:0;background:var(--code);border-radius:8px;padding:10px;overflow-x:auto;font-size:.78rem;line-height:1.5;text-align:left}
+.out{border-right:4px solid #34a853}
+</style></head><body>
+<header><h1 class="logo"><span>O</span><span>R</span><span>1</span> – مثال‌های مدل‌سازی</h1>
+<div class="sub">مثال ۱ تا ۷ (صفحه ۶ تا ۱۰ جزوه) · کد پایتون + جواب</div></header>
+<input id="q" placeholder="جستجو در مثال‌ها… (مثلاً: کلاه، خانه، کارگاه)" oninput="f()">
+<main><section class="card" data-t="مثال 1 تولید سه محصول (فرز، تراش، سنگ) – بیشینه‌سازی سود">
+<h2>مثال 1<small>تولید سه محصول (فرز، تراش، سنگ) – بیشینه‌سازی سود</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 1: تولید سه محصول (ماکزیمم‌سازی سود)
+from scipy.optimize import linprog
+
+# max z = 30x1 + 12x2 + 15x3  -&gt;  linprog کمینه می‌کند، پس ضرایب را منفی می‌کنیم
+c = [-30, -12, -15]
+
+A_ub = [
+    [9, 3, 5],   # فرز   &lt;= 500
+    [5, 4, 0],   # تراش  &lt;= 350
+    [3, 0, 2],   # سنگ   &lt;= 150
+    [0, 0, 1],   # x3    &lt;= 30
+]
+b_ub = [500, 350, 150, 30]
+
+res = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=[(0, None)] * 3, method=&quot;highs&quot;)
+
+print(&quot;وضعیت:&quot;, res.message)
+print(&quot;x1, x2, x3 =&quot;, [round(float(v), 4) for v in res.x])
+print(&quot;سود بیشینه z =&quot;, round(-res.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+x1, x2, x3 = [16.6667, 66.6667, 30.0]
+سود بیشینه z = 1750.0
+</code></pre></section><section class="card" data-t="مثال 2 ماده A و B در یک محصول – کمینه‌سازی هزینه">
+<h2>مثال 2<small>ماده A و B در یک محصول – کمینه‌سازی هزینه</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 2: ماده A و B (مینیمم‌سازی هزینه)
+from scipy.optimize import linprog
+
+# min z = 4xA + 8xB
+c = [4, 8]
+
+# 5xA + 10xB = 150   (محدودیت وزن)
+A_eq = [[5, 10]]
+b_eq = [150]
+
+# xA &lt;= 20  و  xB &gt;= 14  (به صورت کران متغیرها)
+bounds = [(0, 20),     # xA
+          (14, None)]  # xB
+
+res = linprog(c, A_eq=A_eq, b_eq=b_eq, bounds=bounds, method=&quot;highs&quot;)
+
+print(&quot;وضعیت:&quot;, res.message)
+print(&quot;xA, xB =&quot;, [round(float(v), 4) for v in res.x])
+print(&quot;هزینه کمینه z =&quot;, round(res.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+xA, xB = [0.0, 15.0]
+هزینه کمینه z = 120.0
+</code></pre></section><section class="card" data-t="مثال 3 تولید دو نوع کلاه – بیشینه‌سازی سود">
+<h2>مثال 3<small>تولید دو نوع کلاه – بیشینه‌سازی سود</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 3: دو نوع کلاه (ماکزیمم‌سازی سود)
+from scipy.optimize import linprog
+
+# max z = 8x1 + 5x2
+c = [-8, -5]
+
+A_ub = [
+    [2, 1],  # 2x1 + x2 &lt;= 500  (ظرفیت تولید)
+]
+b_ub = [500]
+
+# x1 &lt;= 150 و x2 &lt;= 250 (محدودیت فروش)
+bounds = [(0, 150), (0, 250)]
+
+res = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method=&quot;highs&quot;)
+
+print(&quot;وضعیت:&quot;, res.message)
+print(&quot;x1, x2 =&quot;, [round(float(v), 4) for v in res.x])
+print(&quot;سود بیشینه z =&quot;, round(-res.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+x1, x2 = [125.0, 250.0]
+سود بیشینه z = 2250.0
+</code></pre></section><section class="card" data-t="مثال 4 ساخت ۵ نوع خانه (الف و ب) – بیشینه‌سازی سود">
+<h2>مثال 4<small>ساخت ۵ نوع خانه (الف و ب) – بیشینه‌سازی سود</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 4: ساخت 5 نوع خانه (ماکزیمم‌سازی سود)
+from scipy.optimize import linprog
+
+profit = [2000, 3000, 2500, 1700, 2000]
+days   = [1+4, 2+7, 2+6, 1+5, 1+3]   # مجموع روزهای کاری A و B برای هر نوع -&gt; [5, 9, 8, 6, 4]
+
+c = [-p for p in profit]
+A_ub = [days]
+b_ub = [610]
+
+# ---------- بخش الف: بدون حداقل ----------
+resA = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=[(0, None)] * 5, method=&quot;highs&quot;)
+print(&quot;=== بخش الف ===&quot;)
+print(&quot;x =&quot;, [round(float(v), 4) for v in resA.x])
+print(&quot;سود بیشینه z =&quot;, round(-resA.fun, 4))
+
+# ---------- بخش ب: حداقل 10 خانه از هر نوع ----------
+resB = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=[(10, None)] * 5, method=&quot;highs&quot;)
+print(&quot;=== بخش ب ===&quot;)
+print(&quot;x =&quot;, [round(float(v), 4) for v in resB.x])
+print(&quot;سود بیشینه z =&quot;, round(-resB.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>=== بخش الف ===
+x = [0.0, 0.0, 0.0, 0.0, 152.5]
+سود بیشینه z = 305000.0
+=== بخش ب ===
+x = [10.0, 10.0, 10.0, 10.0, 82.5]
+سود بیشینه z = 257000.0
+</code></pre></section><section class="card" data-t="مثال 5 برنامه تولید سه‌ماهه (عادی و اضافه‌کاری) – کمینه‌سازی هزینه">
+<h2>مثال 5<small>برنامه تولید سه‌ماهه (عادی و اضافه‌کاری) – کمینه‌سازی هزینه</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 5: برنامه تولید سه ماهه (وقت عادی و اضافه‌کاری)
+from scipy.optimize import linprog
+
+D = [1100, 1200, 1300]   # تقاضای ماه‌ها
+
+# ترتیب متغیرها: [x11, x12, x13, x21, x22, x23]
+# (x1i: وقت عادی ماه i ،  x2i: اضافه‌کاری ماه i)
+#
+# z = 5000*sum(x1i) + 6000*sum(x2i) + 200*sum(x1i + x2i - Di)
+#   = (5000+200)*sum(x1i) + (6000+200)*sum(x2i) - 200*sum(Di)
+# جمله ثابت -200*sum(D) روی جواب بهینه اثری ندارد؛ در آخر به مقدار هدف اضافه می‌شود.
+c = [5200] * 3 + [6200] * 3
+const = -200 * sum(D)
+
+A_ub = [
+    [1, 1, 1, 0, 0, 0],      # ظرفیت عادی سه ماه:   x11+x12+x13 &lt;= 3000
+    [0, 0, 0, 1, 1, 1],      # ظرفیت اضافه‌کاری:    x21+x22+x23 &lt;= 900
+    [-1, 0, 0, -1, 0, 0],    # تقاضای ماه 1:        x11+x21 &gt;= 1100
+    [0, -1, 0, 0, -1, 0],    # تقاضای ماه 2:        x12+x22 &gt;= 1200
+    [0, 0, -1, 0, 0, -1],    # تقاضای ماه 3:        x13+x23 &gt;= 1300
+]
+b_ub = [3000, 900, -D[0], -D[1], -D[2]]
+
+res = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=[(0, None)] * 6, method=&quot;highs&quot;)
+
+x = res.x
+print(&quot;وضعیت:&quot;, res.message)
+print(&quot;وقت عادی  x11,x12,x13 =&quot;, [round(float(v), 4) for v in x[:3]])
+print(&quot;اضافه‌کاری x21,x22,x23 =&quot;, [round(float(v), 4) for v in x[3:]])
+print(&quot;هزینه کمینه z =&quot;, round(res.fun + const, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+وقت عادی  x11,x12,x13 = [1100.0, 1200.0, 700.0]
+اضافه‌کاری x21,x22,x23 = [0.0, 0.0, 600.0]
+هزینه کمینه z = 18600000.0
+</code></pre></section><section class="card" data-t="مثال 6 شرکت مواد پلاستیکی، سه محصول – بیشینه‌سازی سود">
+<h2>مثال 6<small>شرکت مواد پلاستیکی، سه محصول – بیشینه‌سازی سود</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 6: شرکت مواد پلاستیکی (سه محصول)
+from scipy.optimize import linprog
+
+price = [5, 15, 30]    # قیمت فروش هر بسته 1000 تایی
+cost  = [2.5, 4, 8]    # هزینه مستقیم
+profit = [p - k for p, k in zip(price, cost)]   # [2.5, 11, 22]
+
+c = [-p for p in profit]
+
+# ساعت مصرفی هر محصول = ساعت ماشین/محوطه + ساعت سرپرست
+A_ub = [[0.8 + 0.2, 1.5 + 0.5, 2.5 + 0.5]]   # [1, 2, 3]
+b_ub = [200]
+
+res = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=[(0, None)] * 3, method=&quot;highs&quot;)
+
+print(&quot;وضعیت:&quot;, res.message)
+print(&quot;x1, x2, x3 =&quot;, [round(float(v), 4) for v in res.x])
+print(&quot;سود بیشینه z =&quot;, round(-res.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+x1, x2, x3 = [0.0, 0.0, 66.6667]
+سود بیشینه z = 1466.6667
+</code></pre></section><section class="card" data-t="مثال 7 سه کارگاه و چهار مشتری – کمینه‌سازی هزینه تولید و حمل">
+<h2>مثال 7<small>سه کارگاه و چهار مشتری – کمینه‌سازی هزینه تولید و حمل</small></h2>
+<div class="bar"><b>کد پایتون</b><button onclick="cp(this)">کپی</button></div>
+<pre dir="ltr"><code># مثال 7: سه کارگاه و چهار مشتری (مسئله حمل‌ونقل - مینیمم‌سازی هزینه)
+import numpy as np
+from scipy.optimize import linprog
+
+demand   = [700, 1500, 400, 500]   # سفارش مشتری 1 تا 4
+capacity = [800, 1000, 1700]       # ظرفیت کارگاه 1 تا 3
+prod_cost = [45, 50, 60]           # هزینه تولید هر واحد در هر کارگاه
+
+# هزینه حمل: سطر = کارگاه، ستون = مشتری
+ship = np.array([
+    [8, 11, 6, 9],     # کارگاه 1
+    [4, 12, 8, 5],     # کارگاه 2
+    [6, 7, 9, 10],     # کارگاه 3
+])
+
+m, n = ship.shape
+# هزینه کل هر مسیر = حمل + تولید ؛ متغیرها x_ij به صورت سطر به سطر
+c = (ship + np.array(prod_cost)[:, None]).flatten()
+
+# محدودیت تقاضا (مساوی): sum_i x_ij = demand_j
+A_eq = np.zeros((n, m * n))
+for j in range(n):
+    for i in range(m):
+        A_eq[j, i * n + j] = 1
+b_eq = demand
+
+# محدودیت ظرفیت (کوچکتر مساوی): sum_j x_ij &lt;= capacity_i
+A_ub = np.zeros((m, m * n))
+for i in range(m):
+    A_ub[i, i * n:(i + 1) * n] = 1
+b_ub = capacity
+
+res = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq,
+              bounds=[(0, None)] * (m * n), method=&quot;highs&quot;)
+
+print(&quot;وضعیت:&quot;, res.message)
+X = res.x.reshape(m, n)
+for i in range(m):
+    print(f&quot;کارگاه {i+1}:&quot;, [round(float(v), 4) for v in X[i]])
+print(&quot;هزینه کل کمینه z =&quot;, round(res.fun, 4))
+</code></pre>
+<div class="bar"><b>جواب (خروجی اجرا)</b></div>
+<pre class="out"><code>وضعیت: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+کارگاه 1: [0.0, 200.0, 400.0, 200.0]
+کارگاه 2: [700.0, 0.0, 0.0, 300.0]
+کارگاه 3: [0.0, 1300.0, 0.0, 0.0]
+هزینه کل کمینه z = 183800.0
+</code></pre></section><p id="none" class="sub" hidden style="text-align:center">نتیجه‌ای پیدا نشد.</p></main>
+<script>
+function f(){var v=q.value.trim(),n=0;document.querySelectorAll('.card').forEach(function(c){var s=c.dataset.t.includes(v)||c.textContent.includes(v);c.hidden=!s;if(s)n++});none.hidden=n>0}
+function cp(b){var t=b.closest('.card').querySelector('code').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='کپی شد ✓'},function(){var r=document.createRange();r.selectNode(b.closest('.card').querySelector('code'));getSelection().removeAllRanges();getSelection().addRange(r);b.textContent='انتخاب شد'});setTimeout(function(){b.textContent='کپی'},1500)}
+</script></body></html>
